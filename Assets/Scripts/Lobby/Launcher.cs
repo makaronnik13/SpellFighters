@@ -27,6 +27,7 @@ namespace Photon.Pun.Demo.PunBasics
         public string BattleLevelName;
         public TMP_InputField NameInputField;
         public Counter Counter;
+        public TextMeshProUGUI WaitingText;
         [Header("Inside Room Panel")]
         public GameObject InsideRoomPanel;
         public GameObject PlayerListEntryPrefab;
@@ -34,7 +35,6 @@ namespace Photon.Pun.Demo.PunBasics
         [Tooltip("The Ui Panel to let the user enter name, connect and play")]
 		[SerializeField]
 		private GameObject controlPanel;
-        public GameObject lobbyPanel;
 
 		[Tooltip("The maximum number of players per room")]
 		[SerializeField]
@@ -93,7 +93,7 @@ namespace Photon.Pun.Demo.PunBasics
 
 			// hide the Play button for visual consistency
 			controlPanel.SetActive(false);
-            lobbyPanel.SetActive(true);
+            InsideRoomPanel.SetActive(true);
 
            
 			// we check if we are connected or not, we join if we are , else we initiate the connection to the server.
@@ -162,7 +162,7 @@ namespace Photon.Pun.Demo.PunBasics
 		{	
 			isConnecting = false;
 			controlPanel.SetActive(true);
-            lobbyPanel.SetActive(false);
+            InsideRoomPanel.SetActive(false);
         }
 
 		/// <summary>
@@ -204,7 +204,7 @@ namespace Photon.Pun.Demo.PunBasics
 			{
                 // #Critical
                 // Load the Room Level. 
-
+                WaitingText.enabled = false;
                 Counter.StartCount(3, ()=> { PhotonNetwork.LoadLevel(BattleLevelName); });
 			}
 		}

@@ -35,8 +35,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DistoreMap:
-        m_Texture: {fileID: 2800000, guid: f44d7709ef34e064a82d4eb52dff442f, type: 3}
-        m_Scale: {x: 2, y: 6}
+        m_Texture: {fileID: 2800000, guid: 89e1b1c005d29cf4598ea861deb35a80, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
-        m_Texture: {fileID: 2800000, guid: e32a26520e3c2bd4792021ad93c57c37, type: 3}
+        m_Texture: {fileID: 2800000, guid: 719e1e1c69aa5fb43b83172fbbb91861, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -71,8 +71,8 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _Distore: 0.0126
-    - _DistoreValue: 0.96
+    - _Distore: 0.0117
+    - _DistoreValue: 4.7
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -84,12 +84,12 @@ Material:
     - _Parallax: 0.02
     - _PulsingPeriod: 0
     - _RotatorSpeed: 0
-    - _Saturate: 7.93
+    - _Saturate: 10
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.64705884, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
