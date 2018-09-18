@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 1ad54e0a855700046a9fa55d3adb3c5a
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Outlast 2 Game Font(RUS BY LYAJ
+  fontNames:
+  - Outlast 2 Game Font(RUS BY LYAJ
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

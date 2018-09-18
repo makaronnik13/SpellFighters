@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e55b2d0845fcf5c43b9c2387033bf5a6
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Tkachenko Sketch 4F
+  fontNames:
+  - Tkachenko Sketch 4F
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
