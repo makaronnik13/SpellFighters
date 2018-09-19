@@ -12,8 +12,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Realtime;
-using Photon.Pun.Demo.Asteroids;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using ExitGames.Client.Photon;
+using Photon.Pun.Demo.Asteroids;
 
 namespace Photon.Pun.Demo.PunBasics
 {
@@ -36,7 +37,9 @@ namespace Photon.Pun.Demo.PunBasics
 		[SerializeField]
 		private GameObject controlPanel;
 
-		[Tooltip("The maximum number of players per room")]
+        private bool _loading = false;
+
+        [Tooltip("The maximum number of players per room")]
 		[SerializeField]
 		private byte maxPlayersPerRoom = 4;
 
@@ -85,7 +88,6 @@ namespace Photon.Pun.Demo.PunBasics
 		/// </summary>
 		public void Connect()
 		{
-
             PhotonNetwork.LocalPlayer.NickName = NameInputField.text;
 
 			// keep track of the will to join a room, because when we come back from the game we will get a callback that we are connected, so we need to know what to do then
@@ -178,46 +180,64 @@ namespace Photon.Pun.Demo.PunBasics
 		/// </remarks>
 		public override void OnJoinedRoom()
 		{
+            Debug.Log("OnJoinedRoom" + PhotonNetwork.LocalPlayer.NickName);
+
             Hashtable props = new Hashtable
             {
-                {DefaultResources.PLAYER_CLASS, SpellGame.Player.Instance.PlayerClass}
+                {DefaultResources.PLAYER_CLASS, SpellGame.Player.Instance.PlayerClass},
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-            foreach (Player p in PhotonNetwork.PlayerList)
+            Hashtable props2 = new Hashtable
             {
-                GameObject entry = Instantiate(PlayerListEntryPrefab);
-                entry.transform.SetParent(InsideRoomPanel.transform);
-                entry.transform.localScale = Vector3.one;
-                entry.GetComponent<PlayerListEntry>().Initialize(p.ActorNumber, p.NickName);
-            }
-
-            props = new Hashtable
-            {
-                {AsteroidsGame.PLAYER_LOADED_LEVEL, false}
+                {DefaultResources.PLAYER_ENTERED_ROOM, true},
             };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
-
-            // #Critical: We only load if we are the first player, else we rely on  PhotonNetwork.AutomaticallySyncScene to sync our instance scene.
-            if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
-			{
-                // #Critical
-                // Load the Room Level. 
-                WaitingText.enabled = false;
-                Counter.StartCount(3, ()=> { PhotonNetwork.LoadLevel(BattleLevelName); });
-			}
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props2);
 		}
 
-        public override void OnPlayerEnteredRoom(Player other)
+        private void CreatePlayer(Player other)
         {
             Debug.Log("OnPlayerEnteredRoom() " + other.NickName); // not seen if you're the player connecting
-            ///
             GameObject entry = Instantiate(PlayerListEntryPrefab);
             entry.transform.SetParent(InsideRoomPanel.transform);
             entry.transform.localScale = Vector3.one;
-            entry.GetComponent<PlayerListEntry>().Initialize(other.ActorNumber, other.NickName);
+            entry.GetComponent<PlayerListEntry>().Initialize(other);
         }
+
+        public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+            if (changedProps.ContainsKey(DefaultResources.PLAYER_ENTERED_ROOM))
+            {
+                if ((bool)changedProps[DefaultResources.PLAYER_ENTERED_ROOM])
+                {
+                    CreatePlayer(targetPlayer);
+                }
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                // #Critical: We only load if we are the first player, else we rely on  PhotonNetwork.AutomaticallySyncScene to sync our instance scene.
+                if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers && !_loading)
+                {
+                    // #Critical
+                    // Load the Room Level. 
+                    photonView.RPC("LaunchTimer", RpcTarget.Others);
+
+                    WaitingText.enabled = false;
+                    Counter.StartCount(3, () => { PhotonNetwork.LoadLevel(BattleLevelName); });
+                    _loading = true;
+                }
+            }
+           
+        }
+
+        [PunRPC]
+        private void LaunchTimer()
+        {
+            WaitingText.enabled = false;
+            Counter.StartCount(3, () => { });
+        }
+          
         #endregion
 
     }

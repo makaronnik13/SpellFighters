@@ -6,17 +6,37 @@ using UnityEngine;
 public static class DefaultResources
 {
     //player custom properties keys
+    public static string PLAYER_ENTERED_ROOM = "PlayerEnteredRoom";
     public static string PLAYER_LOADED_LEVEL = "LevelLoaded";
     public static string PLAYER_CLASS = "PlayerClass";
     public static string PLAYER_LIVES = "PlayerLives";
-    public static string PLAYER_CHOOSED_CARDS = "PlayerFinishedTurn";
-    public static string PLAYER_CHOOSED_CARDS_TO_ATACK = "PlayerChoosedCardsToAtack";
+
+
+    //public static string PLAYER_CHOOSED_CARDS = "PlayerFinishedTurn";
+    //public static string PLAYER_CHOOSED_CARDS_TO_ATACK = "PlayerChoosedCardsToAtack";
+
+    public static string PLAYER_TURN = "PlayerTurn";
+
+
     public static string PLAYER_HAND = "PlayerHand";
     public static string PLAYER_DECK = "PlayerDeck";
     public static string PLAYER_DROP = "PlayerDrop";
 
     //events codes
     public static byte START_GAME_EVENT = 0;
+
+    public enum GameTurn
+    {
+        Error = -1,
+        SelectCards = 0,
+        SelectCardsToAtack = 1,
+        PlayingCard1 = 2,
+        Reaction1 = 3,
+        PlayingtCard2 = 4,
+        Reaction2 = 5,
+        PlayingCard3 = 6,
+        Reaction3 = 7,
+    }
 
 
     private static Card[] _allCards = null;

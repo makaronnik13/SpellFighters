@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using Photon.Pun;
 
-public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPunInstantiateMagicCallback, IPointerDownHandler
+public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPunInstantiateMagicCallback, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     private int _lastSibling;
 
@@ -68,6 +68,9 @@ public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPoin
         {
             return;
         }
+
+        CardGameManager.Instance.CardFocused(this);
+
         _hovered = true;
 
         Reposition(GetComponentInParent<CardsLayout>());
@@ -94,7 +97,7 @@ public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPoin
         {
             scale *= 2f;
         }
-   
+
         MoveCardTo(layout, scale, () => { });
     }
 
@@ -194,7 +197,21 @@ public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPoin
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
         CardGameManager.Instance.DragCard(this);
     }
 
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        CardGameManager.Instance.DragingCardEnded();
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+      
+    }
 }

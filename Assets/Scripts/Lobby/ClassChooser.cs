@@ -8,7 +8,7 @@ using TMPro;
 
 public class ClassChooser : MonoBehaviour {
 
-    private int __currentClass;
+    public int __currentClass;
     public int _currentClass
     {
         get
@@ -17,6 +17,8 @@ public class ClassChooser : MonoBehaviour {
         }
         set
         {
+            Debug.Log(value);
+
             __currentClass = value;
 
             if (value >= DefaultResources.AllClasses.Length)
@@ -28,6 +30,7 @@ public class ClassChooser : MonoBehaviour {
                 __currentClass = DefaultResources.AllClasses.Length + value;
             }
 
+            Debug.Log(__currentClass);
             //update ui
             ClassName.text = DefaultResources.AllClasses[__currentClass].BattlerName;
             ClassHp.text = DefaultResources.AllClasses[__currentClass].Hp+"";

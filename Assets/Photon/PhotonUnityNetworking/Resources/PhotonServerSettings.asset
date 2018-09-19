@@ -34,4 +34,7 @@ MonoBehaviour:
   - RespawnSpaceship
   - GiveCardToRPC
   - StartTurn
+  - ClearCardSlot
+  - LaunchTimer
+  - MoveCardToClient
   DisableAutoOpenWizard: 1
