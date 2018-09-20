@@ -9,24 +9,27 @@ using System;
 public class CardInspector : Editor
 {
 
+
     private Card _card;
-    private ReorderableList _bonusesList;
+    private ReorderableList _spellsList;
 
     private void OnEnable()
     {
         _card = (Card)target;
 
-        _bonusesList = new ReorderableList(serializedObject, serializedObject.FindProperty("BonusAtack"));
+        _spellsList = new ReorderableList(serializedObject, serializedObject.FindProperty("Spells"));
 
-        _bonusesList.drawHeaderCallback = (Rect rect) =>
+        _spellsList.drawHeaderCallback = (Rect rect) =>
         {
-            EditorGUI.LabelField(rect, "bonuses");
+            EditorGUI.LabelField(rect, "Spells");
         };
 
-        _bonusesList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
+
+        _spellsList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
         {
-        
+            EditorGUI.PropertyField(rect, serializedObject.FindProperty("Spells").GetArrayElementAtIndex(index));
         };
+
 
     }
 
@@ -34,7 +37,7 @@ public class CardInspector : Editor
     {
      
         _card.CardName = EditorGUILayout.TextField(_card.CardName);
-        _card.Priority = EditorGUILayout.IntField(_card.Priority, GUILayout.Width(35));
+        //_card.Priority = EditorGUILayout.IntField(_card.Priority, GUILayout.Width(35));
 
         _card.Image = (Sprite)EditorGUILayout.ObjectField(_card.Image, typeof(Sprite), false, GUILayout.Width(150), GUILayout.Height(150));
         
@@ -47,6 +50,8 @@ public class CardInspector : Editor
         {
             _card.Battler = (BattlerClass)EditorGUILayout.ObjectField("Class", _card.Battler, typeof(BattlerClass), false);
         }
+
+        _spellsList.DoLayoutList();
 
         if (GUI.changed)
         {

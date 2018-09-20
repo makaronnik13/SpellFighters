@@ -37,4 +37,9 @@ MonoBehaviour:
   - ClearCardSlot
   - LaunchTimer
   - MoveCardToClient
+  - MoveCardOnClient
+  - OpenCardsInSlot
+  - ReactOnClient
+  - ContinueTurn
+  - MoveDropToPile
   DisableAutoOpenWizard: 1

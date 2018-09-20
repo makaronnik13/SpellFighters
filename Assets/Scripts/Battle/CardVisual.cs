@@ -22,6 +22,7 @@ public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPoin
     public Image ClassPanel;
     public Image Rarity;
     public Image Picture;
+    public Image MaskPanel;
     public TextMeshProUGUI Name;
     private Transform _oldParentTransform;
     private Card _card;
@@ -33,6 +34,29 @@ public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPoin
         }
     }
 
+    public bool CanBePlayed
+    {
+        get
+        {
+            return !MaskPanel.enabled;
+        }
+        set
+        {
+            MaskPanel.enabled = !value;
+        }
+    }
+
+    public bool Visible
+    {
+        get
+        {
+            return Back.activeInHierarchy;
+        }
+        set
+        {
+            Back.SetActive(!value);
+        }
+    }
 
     public void Init(Card card, CardGameManager.CardPosition position, bool show)
     {
@@ -40,15 +64,16 @@ public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPoin
         Name.text = card.CardName;
         Picture.sprite = card.Image;
         Description.text = card.description;
-        Priority.text = "" + card.Priority;
+        //Priority.text = "" + card.Spells;
         ClassPanel.color = DefaultResources.GetClassColor(card.CardType, card.Battler);
         Priority.transform.parent.GetComponent<Image>().color = DefaultResources.GetClassColor(card.CardType, card.Battler);
         Rarity.enabled = (card.Rarity == CardStats.Rarity.Ultimate);
 
-        if (card.Priority<0)
-        {
+        //if (card.Priority<0)
+        //{
             Priority.transform.parent.gameObject.SetActive(false);
-        }
+        //}
+
         if (!show)
         {
             Back.SetActive(true);
@@ -76,12 +101,13 @@ public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPoin
         Reposition(GetComponentInParent<CardsLayout>());
 
         _lastSibling = transform.GetSiblingIndex();
+
         transform.SetAsLastSibling();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (_lastSibling!=-1)
+        if (_lastSibling!=-1 && CardGameManager.Instance.CanFocus(this))
         {
             transform.SetSiblingIndex(_lastSibling);
         }
@@ -202,6 +228,10 @@ public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPoin
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!CanBePlayed)
+        {
+            return;
+        }
         CardGameManager.Instance.DragCard(this);
     }
 
@@ -213,5 +243,42 @@ public class CardVisual : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPoin
     public void OnDrag(PointerEventData eventData)
     {
       
+    }
+
+    public void Burn()
+    {
+        StartCoroutine(Burn(1f));
+    }
+
+    private IEnumerator Burn(float v)
+    {
+        float timer = v;
+        List<TextMeshProUGUI> texts = GetComponentsInChildren<TextMeshProUGUI>().ToList();
+        List<Material> disolveMaterials = new List<Material>();
+
+        foreach (Image img in GetComponentsInChildren<Image>())
+        {
+            img.raycastTarget = false;
+            if (img.material && img.material.shader.name == "CardDisolve")
+            {
+                disolveMaterials.Add(img.material);
+            }
+        }
+
+        while (timer>0)
+        {
+            timer -= Time.deltaTime;
+            foreach (TextMeshProUGUI text in texts)
+            {
+                text.color = Color.Lerp(text.color, new Color(0,0,0,0), timer/v);
+            }
+            foreach (Material material in disolveMaterials)
+            {
+                material.SetFloat("_disolveValue", Mathf.Lerp(material.GetFloat("_disolveValue"), 1, timer / v));
+            }
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        PhotonNetwork.Destroy(gameObject);
     }
 }

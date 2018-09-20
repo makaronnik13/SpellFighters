@@ -157,7 +157,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 51349739}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1297475563, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -588,11 +588,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -1069,7 +1069,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 366, y: -134.7191}
+  m_AnchoredPosition: {x: 412, y: -134.7191}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &653011725
@@ -1209,10 +1209,10 @@ RectTransform:
   m_Father: {fileID: 51349740}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 153.6, y: -201.8421}
+  m_SizeDelta: {x: 307.2, y: 134.5614}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &692135444
 MonoBehaviour:
@@ -1824,11 +1824,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -2441,11 +2441,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -2656,8 +2656,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449a24f982451f741aa3b2f271326357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StaticSlot: 1
-  FocusDelta: {x: 0, y: 0, z: 0}
+  StaticSlot: 0
+  FocusDelta: {x: 0, y: -50, z: 0}
   rotOffset: 0
   maxRot: 0
   gap: 0
@@ -2805,10 +2805,10 @@ RectTransform:
   m_Father: {fileID: 51349740}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 153.6, y: -67.2807}
+  m_SizeDelta: {x: 307.2, y: 134.5614}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1543161173
 MonoBehaviour:
@@ -2969,11 +2969,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -3073,8 +3073,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449a24f982451f741aa3b2f271326357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StaticSlot: 1
-  FocusDelta: {x: 0, y: 0, z: 0}
+  StaticSlot: 0
+  FocusDelta: {x: 0, y: -50, z: 0}
   rotOffset: 0
   maxRot: 0
   gap: 0
@@ -3714,8 +3714,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449a24f982451f741aa3b2f271326357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StaticSlot: 1
-  FocusDelta: {x: 0, y: 0, z: 0}
+  StaticSlot: 0
+  FocusDelta: {x: 0, y: -50, z: 0}
   rotOffset: 0
   maxRot: 0
   gap: 0

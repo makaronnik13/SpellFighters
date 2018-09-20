@@ -14,7 +14,6 @@ MonoBehaviour:
   CardName: Cadarkhas
   Image: {fileID: 21300026, guid: 22f8191eb4ec4df4db0c22110859a039, type: 3}
   Rarity: 0
-  Priority: 4
   description: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 2 \u0435\u0434. \u0443\u0440\u043E\u043D\u0430
     \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0443 \u0438 2 \u0435\u0434.
     \u0443\u0440\u043E\u043D\u0430 \u0432\u0430\u043C.\n\u041D\u0430\u043D\u043E\u0441\u0438\u0442
@@ -23,3 +22,6 @@ MonoBehaviour:
     \n\u043D\u0430\u0447\u0438\u043D\u0430\u044F \u0441\u043E \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0433\u043E."
   CardType: 3
   Battler: {fileID: 11400000, guid: 18d0663fb5be9fe43a7e28a0110aac58, type: 2}
+  Spells:
+  - {fileID: 11400000, guid: 5101008d57631494da45db9a9253239f, type: 2}
+  - {fileID: 11400000, guid: 843d178420356774897e0cb36639cab3, type: 2}

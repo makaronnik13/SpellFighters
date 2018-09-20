@@ -14,9 +14,11 @@ MonoBehaviour:
   CardName: Ertheanos
   Image: {fileID: 21300034, guid: 961dd7189a42b0a4281637922fdc48ce, type: 3}
   Rarity: 1
-  Priority: 4
   description: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 5 \u0435\u0434. \u0443\u0440\u043E\u043D\u0430
     \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0443 \u0438 4 \u0435\u0434
     \u0443\u0440\u043E\u043D\u0430 \u0432\u0430\u043C."
   CardType: 0
   Battler: {fileID: 0}
+  Spells:
+  - {fileID: 11400000, guid: b32aedb68a9f5bc4994369e875355dc0, type: 2}
+  - {fileID: 11400000, guid: 324d93d195355b3439fbc2e76200b3b4, type: 2}

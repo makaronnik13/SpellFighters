@@ -14,7 +14,6 @@ MonoBehaviour:
   CardName: Ravite
   Image: {fileID: 21300012, guid: 22f8191eb4ec4df4db0c22110859a039, type: 3}
   Rarity: 1
-  Priority: 2
   description: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 2 \u0435\u0434. \u0443\u0440\u043E\u043D\u0430
     \u0438\u0433\u043D\u043E\u0440\u0438\u0440\u0443\u044F \u0438\u043C\u043C\u0443\u043D\u0438\u0442\u0435\u0442
     \u043A \u0443\u0440\u043E\u043D\u0443. \n\u041F\u043E\u0441\u043B\u0435 \u0443\u0445\u043E\u0434\u0430
@@ -23,3 +22,5 @@ MonoBehaviour:
     Common \u0437\u0430\u043A\u043B\u0438\u043D\u0430\u043D\u0438\u0439."
   CardType: 3
   Battler: {fileID: 11400000, guid: abb5b56fe2e7f1b4395b0dc17bec68e7, type: 2}
+  Spells:
+  - {fileID: 11400000, guid: f2736d9d443da314b8c50edf07fcd0fc, type: 2}

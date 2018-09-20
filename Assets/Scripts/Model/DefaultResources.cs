@@ -32,10 +32,9 @@ public static class DefaultResources
         SelectCardsToAtack = 1,
         PlayingCard1 = 2,
         Reaction1 = 3,
-        PlayingtCard2 = 4,
+        PlayingCard2 = 4,
         Reaction2 = 5,
-        PlayingCard3 = 6,
-        Reaction3 = 7,
+        PlayingCard3 = 6
     }
 
 

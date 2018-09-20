@@ -9,11 +9,10 @@ public class Card : ScriptableObject
     public string CardName;
     public Sprite Image;
     public CardStats.Rarity Rarity;
-    public int Priority;
     public string description;
-
     public CardStats.CardType CardType;
     public BattlerClass Battler;
+    public List<Spell> Spells = new List<Spell>();
 }
 
 public class CardStats
@@ -31,4 +30,5 @@ public class CardStats
         Token,
         Class
     }
+
 }

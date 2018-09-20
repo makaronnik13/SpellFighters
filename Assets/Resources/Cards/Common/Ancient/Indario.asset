@@ -14,7 +14,6 @@ MonoBehaviour:
   CardName: Indario
   Image: {fileID: 21300012, guid: 961dd7189a42b0a4281637922fdc48ce, type: 3}
   Rarity: 1
-  Priority: 1
   description: "\u0420\u0430\u0437\u0432\u043E\u0440\u0430\u0447\u0438\u0432\u0430\u0435\u0442
     \u0432\u0441\u0435 \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u043D\u044B\u0435
     \u043D\u0430 \u0432\u0430\u0441 \n\u0432 \u044D\u0442\u043E\u0442 \u0445\u043E\u0434
@@ -22,3 +21,5 @@ MonoBehaviour:
     \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430."
   CardType: 0
   Battler: {fileID: 0}
+  Spells:
+  - {fileID: 11400000, guid: 503dcf9e0f1c5b445bf4c6a0c200b85a, type: 2}

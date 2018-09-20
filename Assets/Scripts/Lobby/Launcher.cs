@@ -132,10 +132,7 @@ namespace Photon.Pun.Demo.PunBasics
 			// this case where isConnecting is false is typically when you lost or quit the game, when this level is loaded, OnConnectedToMaster will be called, in that case
 			// we don't want to do anything.
 			if (isConnecting)
-			{
-				
-				Debug.Log("Now this client is connected and could join a room");
-		
+			{	
 				// #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
 				PhotonNetwork.JoinRandomRoom();
 			}
@@ -180,8 +177,6 @@ namespace Photon.Pun.Demo.PunBasics
 		/// </remarks>
 		public override void OnJoinedRoom()
 		{
-            Debug.Log("OnJoinedRoom" + PhotonNetwork.LocalPlayer.NickName);
-
             Hashtable props = new Hashtable
             {
                 {DefaultResources.PLAYER_CLASS, SpellGame.Player.Instance.PlayerClass},
@@ -197,7 +192,6 @@ namespace Photon.Pun.Demo.PunBasics
 
         private void CreatePlayer(Player other)
         {
-            Debug.Log("OnPlayerEnteredRoom() " + other.NickName); // not seen if you're the player connecting
             GameObject entry = Instantiate(PlayerListEntryPrefab);
             entry.transform.SetParent(InsideRoomPanel.transform);
             entry.transform.localScale = Vector3.one;

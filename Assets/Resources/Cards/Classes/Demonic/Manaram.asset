@@ -14,7 +14,6 @@ MonoBehaviour:
   CardName: Manaram
   Image: {fileID: 21300020, guid: 22f8191eb4ec4df4db0c22110859a039, type: 3}
   Rarity: 1
-  Priority: 6
   description: "\u0423\u0431\u0438\u0432\u0430\u0435\u0442 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E
     \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430. \n\u0427\u0442\u043E\u0431\u044B
     \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C \u044D\u0442\u0443
@@ -25,3 +24,5 @@ MonoBehaviour:
     \u0438\u0433\u0440\u044B."
   CardType: 3
   Battler: {fileID: 11400000, guid: 4bf35defa0f66c4408804b0347179606, type: 2}
+  Spells:
+  - {fileID: 11400000, guid: 503dcf9e0f1c5b445bf4c6a0c200b85a, type: 2}

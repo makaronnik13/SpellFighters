@@ -34,7 +34,6 @@ public class Counter : MonoBehaviour
 
     public void StartCount(int v, Action p)
     {
-        Debug.Log("start count");
         ShowTimer();
         StartCoroutine(Count(v,p));
     }
@@ -58,7 +57,6 @@ public class Counter : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
         HideTimer();
-        Debug.Log("end count");
         p.Invoke();
     }
 }

@@ -14,7 +14,6 @@ MonoBehaviour:
   CardName: Avendos
   Image: {fileID: 21300016, guid: 961dd7189a42b0a4281637922fdc48ce, type: 3}
   Rarity: 1
-  Priority: 0
   description: "\u041E\u0442\u043C\u0435\u043D\u044F\u0435\u0442 \u0432\u0441\u0435
     \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u044B\u0435 \u0441\u043E\u0431\u044B\u0442\u0438\u044F
     \u0432 \u044D\u0442\u043E\u043C \u0445\u043E\u0434\u0443.\n\u0412\u044B \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u0442\u0435
@@ -22,3 +21,5 @@ MonoBehaviour:
     \u0434\u043E \u043A\u043E\u043D\u0446\u0430 \u0440\u0430\u0443\u043D\u0434\u0430.\n"
   CardType: 0
   Battler: {fileID: 0}
+  Spells:
+  - {fileID: 11400000, guid: 503dcf9e0f1c5b445bf4c6a0c200b85a, type: 2}

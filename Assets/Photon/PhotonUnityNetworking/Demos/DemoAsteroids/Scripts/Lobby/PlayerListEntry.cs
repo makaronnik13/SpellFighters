@@ -49,10 +49,6 @@ public class PlayerListEntry : MonoBehaviour
         {
             owner = player;
             PlayerNameText.text = player.NickName;
-
-            Debug.Log(player.NickName);
-            Debug.Log(player.CustomProperties[DefaultResources.PLAYER_CLASS]);
-
             BattlerClass bClass = DefaultResources.GetClassById((int)player.CustomProperties[DefaultResources.PLAYER_CLASS]);
             PlayerClassImage.sprite = bClass.BattlerImage;
             PlayerClassText.text = bClass.BattlerName;

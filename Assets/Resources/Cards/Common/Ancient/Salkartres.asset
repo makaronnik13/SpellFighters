@@ -14,7 +14,6 @@ MonoBehaviour:
   CardName: Salkartres
   Image: {fileID: 21300020, guid: 961dd7189a42b0a4281637922fdc48ce, type: 3}
   Rarity: 0
-  Priority: 4
   description: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 1 \u0435\u0434. \u0443\u0440\u043E\u043D\u0430
     \u0432\u0430\u043C.\n\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0438\u0439 \u0440\u0430\u0437,
     \u043D\u0430\u043D\u043E\u0441\u044F \u0443\u0440\u043E\u043D \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0443,
@@ -22,3 +21,5 @@ MonoBehaviour:
     \u0435\u0434. \u0443\u0440\u043E\u043D\u0430 \u0431\u043E\u043B\u044C\u0448\u0435."
   CardType: 0
   Battler: {fileID: 0}
+  Spells:
+  - {fileID: 11400000, guid: 842979dd68c2f424e83158359d2afff5, type: 2}

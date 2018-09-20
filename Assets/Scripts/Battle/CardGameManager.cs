@@ -87,6 +87,18 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         if (changedProps.ContainsKey(DefaultResources.PLAYER_TURN))
         {
+            if (CheckAllPlayerOnTurn(DefaultResources.GameTurn.SelectCards))
+            {
+                photonView.RPC("MoveDropToPile", RpcTarget.All);
+
+                for (int i = 0; i<3; i++)
+                {
+                    photonView.RPC("ClearCardSlot", RpcTarget.All, new object[] { i });
+                }
+
+                photonView.RPC("StartTurn", RpcTarget.All);
+            }
+
             if (CheckAllPlayerOnTurn(DefaultResources.GameTurn.SelectCardsToAtack))
             {
                 Debug.Log("StartAtack");
@@ -99,19 +111,19 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
                 //this.photonView.RPC("PlayCard", RpcTarget.All);
             }
 
-            if (CheckAllPlayerOnTurn(DefaultResources.GameTurn.PlayingCard1))
+            if (CheckAllPlayerOnTurn(DefaultResources.GameTurn.PlayingCard2))
             {
                 PlayCards(1);
                 //this.photonView.RPC("PlayCard", RpcTarget.All);
             }
 
-            if (CheckAllPlayerOnTurn(DefaultResources.GameTurn.PlayingCard1))
+            if (CheckAllPlayerOnTurn(DefaultResources.GameTurn.PlayingCard3))
             {
                 PlayCards(2);
                 //this.photonView.RPC("PlayCard", RpcTarget.All);
             }
 
-            if (CheckAllPlayerOnTurn(DefaultResources.GameTurn.Reaction1) || CheckAllPlayerOnTurn(DefaultResources.GameTurn.Reaction2) || CheckAllPlayerOnTurn(DefaultResources.GameTurn.Reaction3))
+            if (CheckAllPlayerOnTurn(DefaultResources.GameTurn.Reaction1) || CheckAllPlayerOnTurn(DefaultResources.GameTurn.Reaction2))
             {
                 React();
             }
@@ -135,38 +147,95 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private void React()
     {
+        photonView.RPC("ReactOnClient", RpcTarget.All);
         Debug.Log("reaction turn");
+    }
+
+    [PunRPC]
+    private void ReactOnClient()
+    {
+        EndAttackButton.gameObject.SetActive(true);
+        EndAttackButton.interactable = true;
+        UpdateCardPlayableState();
     }
 
     private void PlayCards(int slot)
     {
         Debug.Log("play cards in "+slot+" slot");
 
+        photonView.RPC("OpenCardsInSlot", RpcTarget.All, new object[] { slot });
+
         PlayCards(MyPlaySlots[slot].GetComponentInChildren<CardVisual>().CardAsset, EnemyPlaySlots[slot].GetComponentInChildren<CardVisual>().CardAsset, ()=>
         {
-            photonView.RPC("ClearCardSlot", RpcTarget.All, new object[] { slot });
+            photonView.RPC("ContinueTurn", RpcTarget.All, new object[] { slot });
         });
     }
 
     private void PlayCards(Card cardAsset1, Card cardAsset2, Action callback = null)
     {
         Debug.Log("play cards on server: " + cardAsset1.CardName +" and "+cardAsset2);
+        
+   
+
         if (callback!=null)
         {
-            callback();
+            StartCoroutine(InvokeAferTime(5, callback));
         }
+    }
+
+    private IEnumerator InvokeAferTime(int waitTime, Action callback)
+    {
+        yield return new WaitForSeconds(waitTime);
+        callback();
+    }
+
+    [PunRPC]
+    private void OpenCardsInSlot(int i)
+    {
+        EnemyPlaySlots[i].GetComponentInChildren<CardVisual>().Visible = true;
+    }
+
+    [PunRPC]
+    private void MoveDropToPile()
+    {
+        foreach (CardVisual cv in Drop1.GetComponentsInChildren<CardVisual>())
+        {
+            MoveCardTo(cv, Deck1, true);
+        }
+    }
+
+    [PunRPC]
+    private void ContinueTurn(int i)
+    {
+        int nextTurnId = i * 2 + 3;
+        if (i == 2) //if this is the last card
+        {
+            nextTurnId = 0;
+        }
+
+        Debug.Log("Next turn id: "+nextTurnId);
+        Hashtable props = new Hashtable
+            {
+                {DefaultResources.PLAYER_TURN, nextTurnId}, //next reaction turn    
+            };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
 
     [PunRPC]
     private void ClearCardSlot(int i)
     {
-        MoveCardTo(MyPlaySlots[i].GetComponentInChildren<CardVisual>(), Drop1, true);
-
-        Hashtable props = new Hashtable
+        CardVisual cv = MyPlaySlots[i].GetComponentInChildren<CardVisual>();
+        if (cv)
+        {
+            if (cv.CardAsset.Rarity == CardStats.Rarity.Ultimate)
             {
-                {DefaultResources.PLAYER_TURN, i*2+3}, //next reaction turn    
-            };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                cv.Burn();
+            }
+            else
+            {
+                MoveCardTo(cv, Drop1, true);
+            }
+        }
     }
 
     private bool CheckAllPlayerOnTurn(DefaultResources.GameTurn turn)
@@ -196,10 +265,11 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     }
 
     public void CardFocused(CardVisual card)
-    {
+    {      
         if (MyPlaySlots.Contains(card.transform.parent.GetComponent<CardsLayout>()) || EnemyPlaySlots.Contains(card.transform.parent.GetComponent<CardsLayout>()))
-        {
+        {          
             card.transform.parent.SetAsLastSibling();
+            card.transform.parent.parent.SetAsLastSibling();
         }
     }
 
@@ -216,6 +286,10 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             return false;
         }
 
+        if (cardVisual.Visible)
+        {
+            return false;
+        }
         return true;
     }
 
@@ -258,9 +332,11 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     public void MoveCardTo(CardVisual c, CardPosition position)
     {  
         CardsLayout parent = null;
+        
         switch (position)
         {
             case CardPosition.Deck:
+
                 if (c.photonView.Owner == PhotonNetwork.LocalPlayer)
                 {
                     parent = Deck1;
@@ -269,6 +345,7 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
                 {
                     parent = Deck2;
                 }
+
                 break;
             case CardPosition.Hand:
                 if (c.photonView.Owner == PhotonNetwork.LocalPlayer)
@@ -279,29 +356,10 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
                 {
                     parent = Hand2;
                 }
-                break;
-            case CardPosition.Drop:
-                if (c.photonView.Owner == PhotonNetwork.LocalPlayer)
-                {
-                    parent = Drop1;
-                }
-                else
-                {
-                    parent = Drop2;
-                }
-                break;
-            case CardPosition.Choose:
-                if (c.photonView.Owner == PhotonNetwork.LocalPlayer)
-                {
-                    parent = ChooseField;
-                }
-                else
-                {
-                    //parent = Drop2;
-                }
+               
                 break;
         }
-
+        
         MoveCardTo(c, parent);     
     }
 
@@ -359,7 +417,16 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
         }
 
-        this.photonView.RPC("StartTurn", RpcTarget.All);
+        foreach (Player p in PhotonNetwork.PlayerList)
+        {
+            Hashtable props = new Hashtable
+            {
+                {DefaultResources.PLAYER_TURN, (int)DefaultResources.GameTurn.SelectCards}
+            };
+
+            p.SetCustomProperties(props);
+        }
+        
     }
 
     [PunRPC]
@@ -367,16 +434,9 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         ChoosePanel.gameObject.SetActive(true);
 
-        Hashtable props = new Hashtable
-            {
-                {DefaultResources.PLAYER_TURN, (int)DefaultResources.GameTurn.SelectCards}
-            };
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
         foreach (CardVisual cv in Deck1.GetComponentsInChildren<CardVisual>())
         {
-            MoveCardTo(cv, CardPosition.Choose);
+            MoveCardTo(cv, ChooseField);
         }     
     }
 
@@ -449,12 +509,12 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         foreach (CardVisual cv in _choosedCards)
         {
-            MoveCardTo(cv, CardPosition.Hand);
+            MoveCardTo(cv, Hand1, true);
         }
 
         foreach (Transform t in ChooseField.transform)
         {
-            MoveCardTo(t.GetComponent<CardVisual>(), CardPosition.Deck);
+            MoveCardTo(t.GetComponent<CardVisual>(), Deck1);
         }
 
         _needToChoose = 3;
@@ -469,15 +529,46 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
         ChooseCounter.text = "0/3";
         ChoosePanel.SetActive(false);
         EndAttackButton.gameObject.SetActive(true);
+
+        UpdateCardPlayableState();
+    }
+
+    private void UpdateCardPlayableState()
+    {
+        foreach (CardVisual cv in Hand1.GetComponentsInChildren<CardVisual>())
+        {
+            cv.CanBePlayed = true;
+
+            if (cv.CardAsset.CardType == CardStats.CardType.Reaction && GetPlayersTurn(PhotonNetwork.LocalPlayer) == DefaultResources.GameTurn.SelectCardsToAtack)
+            {
+                cv.CanBePlayed = false;
+            }
+
+            if (cv.CardAsset.CardType != CardStats.CardType.Reaction && (GetPlayersTurn(PhotonNetwork.LocalPlayer) == DefaultResources.GameTurn.Reaction1 || GetPlayersTurn(PhotonNetwork.LocalPlayer) == DefaultResources.GameTurn.Reaction2))
+            {
+                cv.CanBePlayed = false;
+            }
+        }
     }
 
     public void EndAttack()
     {
         EndAttackButton.gameObject.SetActive(false);
-        Hashtable props = new Hashtable
-            {
-                {DefaultResources.PLAYER_TURN, (int)DefaultResources.GameTurn.PlayingCard1}
-            };
+        Hashtable props = new Hashtable();
+
+        switch (GetPlayersTurn(PhotonNetwork.LocalPlayer))
+        {
+            case DefaultResources.GameTurn.SelectCardsToAtack:
+                props.Add(DefaultResources.PLAYER_TURN, (int)DefaultResources.GameTurn.PlayingCard1);
+                break;
+            case DefaultResources.GameTurn.Reaction1:
+                props.Add(DefaultResources.PLAYER_TURN, (int)DefaultResources.GameTurn.PlayingCard2);
+                break;
+            case DefaultResources.GameTurn.Reaction2:
+                props.Add(DefaultResources.PLAYER_TURN, (int)DefaultResources.GameTurn.PlayingCard3);
+                break;
+        }
+        
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
 
@@ -555,7 +646,27 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (sync)
         {
-            photonView.RPC("MoveCardOnClient", RpcTarget.All, new object[] { card.photonView, GetLayoutId(layout) });
+            int layoutId = GetLayoutId(layout);       
+            if (MyPlaySlots.Contains(layout))
+            {
+                int slot = MyPlaySlots.ToList().IndexOf(layout);
+                layoutId = GetLayoutId(EnemyPlaySlots[slot]);
+            }
+            if (layout == Deck1)
+            {
+                layoutId = GetLayoutId(Deck2);
+            }
+            if (layout == Drop1)
+            {
+                layoutId = GetLayoutId(Drop2);
+            }
+            if (layout == Hand1)
+            {
+                layoutId = GetLayoutId(Hand2);
+            }
+
+            photonView.RPC("MoveCardOnClient", PhotonNetwork.LocalPlayer, new object[] { card.photonView.ViewID, GetLayoutId(layout)});
+            photonView.RPC("MoveCardOnClient", RpcTarget.Others, new object[] { card.photonView.ViewID, layoutId });
         }
         else
         {
@@ -564,8 +675,9 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     }
 
     [PunRPC]
-    private void MoveCardToClient(PhotonView cardView, int layoutId)
+    private void MoveCardOnClient(int cardViewId, int layoutId)
     {
+        PhotonView cardView = PhotonView.Find(cardViewId);
         CardsLayout newLayout = GetLayoutById(layoutId);
         if (newLayout)
         {
@@ -614,7 +726,7 @@ public class CardGameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             { MyPlaySlots[2],8 },
             { EnemyPlaySlots[0],9 },
             { EnemyPlaySlots[1],10 },
-            { EnemyPlaySlots[2],1 }
+            { EnemyPlaySlots[2],11 }
         };
 
         if (ids.ContainsKey(layout))

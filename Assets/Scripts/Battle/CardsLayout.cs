@@ -63,6 +63,7 @@ public class CardsLayout : MonoBehaviour
 	{
         if (CardsSiblings.Contains(visual.transform))
         {
+            Debug.Log("s1");
             visual.transform.SetSiblingIndex(CardsSiblings.IndexOf(visual.transform));
         }
 		else

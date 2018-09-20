@@ -30,7 +30,6 @@ public class ClassChooser : MonoBehaviour {
                 __currentClass = DefaultResources.AllClasses.Length + value;
             }
 
-            Debug.Log(__currentClass);
             //update ui
             ClassName.text = DefaultResources.AllClasses[__currentClass].BattlerName;
             ClassHp.text = DefaultResources.AllClasses[__currentClass].Hp+"";
